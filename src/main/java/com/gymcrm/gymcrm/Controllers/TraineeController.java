@@ -33,11 +33,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/Trainees")
 @Tag(name = "Trainee Management")
 public class TraineeController {
-
     @Autowired
     TraineeService traineeService;
-    
-
 
     private static final Logger logger = LoggerFactory.getLogger(TraineeController.class);
 

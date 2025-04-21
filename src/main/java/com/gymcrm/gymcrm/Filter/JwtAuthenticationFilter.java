@@ -1,7 +1,6 @@
 package com.gymcrm.gymcrm.Filter;
 
-import com.gymcrm.gymcrm.Entities.User;
-import com.gymcrm.gymcrm.Repositories.UserRepository;
+
 import com.gymcrm.gymcrm.Services.CustomUserDetailsService;
 import com.gymcrm.gymcrm.Services.JwtService;
 import jakarta.servlet.FilterChain;

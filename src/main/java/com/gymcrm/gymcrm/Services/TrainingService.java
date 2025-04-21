@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.gymcrm.gymcrm.Client.TrainerBillingClient;
+import com.gymcrm.gymcrm.DTO.TrainingBillingDTO;
+import com.gymcrm.gymcrm.Mappers.TrainingBillingMapper;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +35,14 @@ public class TrainingService {
 
     @Autowired
     TrainingMapper trainingMapper;
+
+    @Autowired
+    TrainingBillingMapper trainingBillingMapper;
+
+    @Autowired
+    TrainerBillingClient trainerBillingClient;
+
+
 
     public Training createTraining(TrainingDTO trainingDTO){
         Training training = new Training();
@@ -79,7 +91,18 @@ public class TrainingService {
             return null;
         }
         trainingRepository.save(training);
+        TrainingBillingDTO billingDTO = trainingBillingMapper.mapToDTO(training);
+        notifyBillingService(billingDTO);
         return training;
+    }
+    @Retry(name = "trainerBillingService", fallbackMethod = "fallbackNotify")
+    public void notifyBillingService(TrainingBillingDTO trainingBillingDTO) {
+        trainerBillingClient.notifyTrainingCreated(trainingBillingDTO);
+    }
+
+    public void fallbackNotify(TrainingBillingDTO trainingBillingDTO, Throwable t) {
+        System.err.println("Resilience4j fallback due to: " + t.getMessage());
+        // Optional: log to DB, send alert, queue for retry, etc.
     }
 
     public List<TrainingDTO> getTraineeTrainings(String username, LocalDate dateFrom, LocalDate dateTo, String trainerUsername, String traininType){

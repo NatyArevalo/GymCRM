@@ -5,6 +5,8 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import com.gymcrm.gymcrm.Enumerators.Rol;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -50,8 +52,8 @@ public class TrainingServiceTest {
     public void testCreateTraining(TrainerDTO trainerDTO, TraineeDTO traineeDTO, TrainingDTO trainingDTO) {
        
 
-        Trainer mockTrainer = new Trainer(1L, new User(1L, trainerDTO.getUserDTO().getFirstName(), trainerDTO.getUserDTO().getLastName(), trainerDTO.getUserDTO().getUsername(), "password", true), new TrainingType(1L, trainerDTO.getSpecialization().getTrainingTypeName()),null);
-        Trainee mockTrainee = new Trainee(1L, new User(1L, traineeDTO.getUserDTO().getFirstName(), traineeDTO.getUserDTO().getLastName(), traineeDTO.getUserDTO().getUsername(), "password", true), traineeDTO.getDateOfBirth(),traineeDTO.getAddress(), null);
+        Trainer mockTrainer = new Trainer(1L, new User(1L, trainerDTO.getUserDTO().getFirstName(), trainerDTO.getUserDTO().getLastName(), trainerDTO.getUserDTO().getUsername(), "password", true, Rol.TRAINER,null), new TrainingType(1L, trainerDTO.getSpecialization().getTrainingTypeName()),null);
+        Trainee mockTrainee = new Trainee(1L, new User(1L, traineeDTO.getUserDTO().getFirstName(), traineeDTO.getUserDTO().getLastName(), traineeDTO.getUserDTO().getUsername(), "password", true, Rol.TRAINEE,null), traineeDTO.getDateOfBirth(),traineeDTO.getAddress(), null);
 
         when(trainerRepository.searchTrainerByUsername(trainerDTO.getUserDTO().getUsername())).thenReturn(mockTrainer);
         when(traineeRepository.searchTraineeByUsername(traineeDTO.getUserDTO().getUsername())).thenReturn(mockTrainee);

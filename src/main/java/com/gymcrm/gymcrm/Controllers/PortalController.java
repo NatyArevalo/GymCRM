@@ -4,7 +4,6 @@ import com.gymcrm.gymcrm.DTO.UserDTO;
 import com.gymcrm.gymcrm.Entities.AuthenticationResponse;
 import com.gymcrm.gymcrm.Services.AuthenticationService;
 import com.gymcrm.gymcrm.Services.LoginAttemptService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,6 +28,7 @@ public class PortalController {
     @Autowired
     LoginAttemptService loginAttemptService;
 
+
     private static final Logger logger = LoggerFactory.getLogger(TraineeController.class);
 
 
@@ -44,7 +43,9 @@ public class PortalController {
         String transactionId = MDC.get("transactionId");
         logger.info("Processing request. transactionId={}", transactionId);
         try {
-
+            if (userDTO.getUsername() == null || userDTO.getUsername().isBlank()) {
+                return ResponseEntity.badRequest().body("Username must not be null or empty.");
+            }
             if (loginAttemptService.isBlocked(userDTO.getUsername())) {
                 return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body("Account is locked. Try again later.");
             }
@@ -58,6 +59,8 @@ public class PortalController {
            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
        }
     }
+
+
 
 //    @PostMapping("/logout")
 //    @ResponseStatus(HttpStatus.OK)
