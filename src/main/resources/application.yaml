@@ -1,8 +1,12 @@
 spring:
   application:
     name: spring-cloud-eureka-client
+  activemq:
+    broker-url: tcp://activemq:61616
+    user: admin
+    password: admin
 server:
-  port: 0
+  port: 8080
 eureka:
   client:
     serviceUrl:
