@@ -42,7 +42,8 @@ public class TrainingService {
     @Autowired
     TrainerBillingClient trainerBillingClient;
 
-
+    @Autowired
+    TrainingSender trainingSender;
 
     public Training createTraining(TrainingDTO trainingDTO){
         Training training = new Training();
@@ -92,7 +93,7 @@ public class TrainingService {
         }
         trainingRepository.save(training);
         TrainingBillingDTO billingDTO = trainingBillingMapper.mapToDTO(training);
-        notifyBillingService(billingDTO);
+        trainingSender.sendTrainingData(billingDTO);
         return training;
     }
     @Retry(name = "trainerBillingService", fallbackMethod = "fallbackNotify")
