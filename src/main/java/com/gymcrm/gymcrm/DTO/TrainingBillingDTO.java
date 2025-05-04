@@ -23,7 +23,7 @@ public class TrainingBillingDTO implements Serializable {
     private String trainerFirstName;
     private String trainerLastName;
     private Boolean isTrainerActive;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate trainingDate;
