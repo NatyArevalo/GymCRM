@@ -13,7 +13,7 @@ public class JmsConfiguration {
     public MessageConverter jacksonJmsMessageConverter(ObjectMapper objectMapper) {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
         converter.setTargetType(MessageType.TEXT);
-        converter.setTypeIdPropertyName("_type");
+        converter.setTypeIdPropertyName("_typeId");
         converter.setObjectMapper(objectMapper);
         return converter;
     }
