@@ -2,6 +2,7 @@ package com.gymcrm.gymcrm.Entities;
 
 import com.gymcrm.gymcrm.Enumerators.Rol;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class User {
     private Long id;
     
     @NotNull
+    @NotBlank
     private String firstName;
 
     @NotNull

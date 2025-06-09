@@ -32,14 +32,6 @@ public class UserService {
     public User createUser(UserDTO userDTO){
         User user = new User();
         try{
-
-            if(userDTO.getFirstName() == null || userDTO.getFirstName().trim().isEmpty()){
-                throw new Exception("first name cannot be empty");
-            }
-            if(userDTO.getLastName() == null || userDTO.getLastName().trim().isEmpty()){
-                throw new Exception("last name cannot be empty");
-            }
-            
             if(userDTO.getIsActive() == null || userDTO.getIsActive().toString().trim().isEmpty()){
                 user.setIsActive(Boolean.FALSE);
             }
