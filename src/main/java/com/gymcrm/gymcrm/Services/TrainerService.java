@@ -43,7 +43,9 @@ public class TrainerService {
                 if(response.isPresent()){
                     TrainingType trainingType = response.get();
                     trainer.setSpecialization(trainingType);
-                }    
+                }else{
+                    throw new Exception("Training type does not exist");
+                }
             }else{
                 throw new Exception("specialization cannot be empty");
             }

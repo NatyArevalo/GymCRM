@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gymcrm.gymcrm.Enumerators.Rol;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,8 +46,8 @@ public class TraineeService {
         try {
             trainee.setUser(userService.createUser(traineeDTO.getUserDTO()));
             trainee.getUser().setRol(Rol.TRAINEE);
-            if (traineeDTO.getDateOfBirth() == null) {
-                throw new Exception("Birth fields cannot be empty");
+            if (trainee.getUser() == null) {
+                throw new Exception("User creation failed");
             }
 
             trainee.setDateOfBirth(traineeDTO.getDateOfBirth());
@@ -60,7 +61,7 @@ public class TraineeService {
         traineeRepository.save(trainee);
         return new TraineeDTO(new UserDTO(null, null, trainee.getUser().getUsername(), trainee.getUser().getPassword(),null),null, null,null);  
     }
-
+    @Transactional
     public TraineeDTO updateTrainee(String username, TraineeDTO traineeDTO){
         Trainee trainee = traineeRepository.searchTraineeByUsername(username);
     
